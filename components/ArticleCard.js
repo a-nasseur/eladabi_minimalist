@@ -1,0 +1,83 @@
+import React from 'react'
+import { Box, Card, styled, Grid } from '@mui/material'
+
+
+import AppTag from './AppTag';
+import AppTextCaption from './AppTextCaption';
+import AppHeading from './AppHeading';
+import colors from '../config/colors';
+import Link from 'next/link';
+
+
+const CardContainer = styled(Card)(({ theme }) => ({
+    marginTop: '48px',
+    padding: '48px 0px',
+    borderBottom : `1px solid ${colors.neutral.grey}`,
+    '&:hover': {
+        boxShadow: `0px 4px 0px 0px ${colors.neutral.lightGrey}`,
+        border: 'none'
+    }
+}));
+
+
+const CardContent = styled(Box)(({ theme }) => ({
+    paddingTop: '24px',
+    // display: 'flex',
+    // justifyContent: 'space-between'
+  
+}));
+
+const TagsContent = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexWrap: 'wrap'
+}));
+
+
+
+const ArticleCard = ({ date, title, tag, id }) => {
+  return (
+
+
+    <CardContainer elevation={0}>
+        {
+            date && title &&
+
+            <>
+            <AppTextCaption style={{ color: colors.neutral.darkGrey }}>
+                    {date}
+                </AppTextCaption>
+                <CardContent>
+                    <Grid container justifyContent='space-between'>
+                        <Grid item xs={6} md={8} lg={8}>
+                                <AppHeading>
+                                    <Link href={'/article/' + id}>
+                                        {title}
+                                    </Link>
+                                </AppHeading>
+                        </Grid>
+                        <Grid item xs={6} md={6} lg={3}>
+                        {
+                            tag &&
+                            <TagsContent>
+                                <AppTag title={tag} />
+                            </TagsContent>
+                        }
+                        </Grid>
+                    </Grid>
+                </CardContent>
+            </>
+        }
+        {
+            !date && !title && 
+
+            <AppHeading>
+                Posts are not available
+            </AppHeading>
+        }
+
+    </CardContainer>
+    
+  )
+}
+
+export default ArticleCard;
