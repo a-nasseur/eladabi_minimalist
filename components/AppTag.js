@@ -10,12 +10,17 @@ const TagContainer = styled(Box)(({ theme }) => ({
     marginRight: 4,
     marginBottom: 4,
     minHeight: '40px',
-    minWidth: '61px',
+    width: '61px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.neutral.grey,
-    color: colors.neutral.darkGrey
+    color: colors.neutral.darkGrey,
+    transition: 'all .4s',
+    '&:hover': {
+      backgroundColor: colors.neutral.darkGrey,
+      color: colors.neutral.lightGrey
+    }
   }));
   
 

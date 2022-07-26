@@ -7,15 +7,24 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 import colors from '../config/colors';
 
+
+
 const FooterContainer = styled(Container)(({ theme }) => ({
     padding: 20,
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
 }));
+
+
+
 
 const SocialIcons = styled(Box)(({ theme }) => ({
   display: 'flex',
 }));
+
+
+
 
 const Footer = () => {
   return (
@@ -29,10 +38,10 @@ const Footer = () => {
           Tous les droits revservee el adabi inc
         </Typography>
         <SocialIcons>
-          <FacebookIcon sx={{ marginRight: '24px'}} /> 
-          <InstagramIcon sx={{ marginRight: '24px'}} />
-          <TwitterIcon sx={{ marginRight: '24px'}} /> 
-          <GitHubIcon sx={{ marginRight: '24px'}} />      
+          <FacebookIcon   sx={{ marginRight: '24px',  '&:hover': {color: colors.secondary}}}  /> 
+          <InstagramIcon  sx={{ marginRight: '24px', '&:hover': {color: colors.secondary}}}  />
+          <TwitterIcon   sx={{ marginRight: '24px', '&:hover': {color: colors.secondary}}}  /> 
+          <GitHubIcon   sx={{ marginRight: '24px','&:hover': {color: colors.secondary}}}  />      
         </SocialIcons>
       </FooterContainer>
     </Box>

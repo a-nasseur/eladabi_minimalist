@@ -29,12 +29,18 @@ const CardContent = styled(Box)(({ theme }) => ({
 
 const TagsContent = styled(Box)(({ theme }) => ({
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'end',
 }));
 
 
 
 const ArticleCard = ({ date, title, tag, id }) => {
+
+  const newDate = new Date(date).toLocaleString('fr-FR')
+
+
+
   return (
 
 
@@ -44,7 +50,7 @@ const ArticleCard = ({ date, title, tag, id }) => {
 
             <>
             <AppTextCaption style={{ color: colors.neutral.darkGrey }}>
-                    {date}
+                    {newDate}
                 </AppTextCaption>
                 <CardContent>
                     <Grid container justifyContent='space-between'>
@@ -55,10 +61,11 @@ const ArticleCard = ({ date, title, tag, id }) => {
                                     </Link>
                                 </AppHeading>
                         </Grid>
-                        <Grid item xs={6} md={6} lg={3}>
+                        <Grid item xs={6} md={6} lg={3} >
                         {
                             tag &&
                             <TagsContent>
+                                <AppTag title={tag} />
                                 <AppTag title={tag} />
                             </TagsContent>
                         }

@@ -18,7 +18,7 @@ const ArticlesList = ({ posts }) => {
       {
         posts.map(post => 
           <React.Fragment key={post.id}>
-            <ArticleCard date={post.created_date} title={post.title} id={post.id} />
+            <ArticleCard date={post.created_date} title={post.title} id={post.id} tag='Tech' />
           </React.Fragment>
         )
       

@@ -1,8 +1,9 @@
-import { AppBar, Box, Container, Input, styled, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Container, styled, Toolbar, Typography } from '@mui/material'
 import React from 'react'
 import Link from 'next/link'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import colors from '../config/colors';
 
@@ -13,7 +14,10 @@ const CustomToolbar = styled(Toolbar)(({ theme }) => ({
 
 const ListContainer = styled('ul')(({ theme }) => ({
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+        display: 'none'
+    }
 
 }));
 
@@ -22,10 +26,14 @@ const ListItem = styled('li')(({ theme }) => ({
     marginRight: '48px',
     color: colors.neutral.darkGrey,
     cursor: 'pointer',
+    paddingBottom: '8px',
     '&:active': {
         borderBottom: '2px solid black',
         borderColor: colors.neutral.darkGrey,
-        paddingBottom: '8px',
+    },
+    '&:hover': {
+        borderBottom: '2px solid black',
+        borderColor: colors.neutral.darkGrey,
     }
 }));
 
@@ -40,6 +48,9 @@ const SearchBox = styled('input')(({ theme }) => ({
     fontFamily: 'Roboto Mono, monospace',
     '&:active': {
         border: 'none'
+    },
+    [theme.breakpoints.down('md')]:{
+        display: 'none'
     }
 }));
 
@@ -50,7 +61,23 @@ const SearchIconContainer = styled(Box)(({ theme }) => ({
     backgroundColor: colors.secondary,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]:{
+        display: 'none'
+    }
+}));
+
+const MenuIconContainer = styled(Box)(({ theme }) => ({
+    width: '40px',
+    height: '40px',
+    borderRadius: '3px',
+    backgroundColor: colors.secondary,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    [theme.breakpoints.up('md')]:{
+        display: 'none'
+    }   
 }));
 
 
@@ -59,7 +86,6 @@ const Navbar = () => {
     <AppBar color='transparent' elevation={0} position='static'>
         <Container maxWidth='lg' sx={{ paddingTop: '50px'}}>
             <CustomToolbar>
-                <Link href="/">
                     <Typography
                     flex={1}
                     variant='h5'
@@ -69,9 +95,8 @@ const Navbar = () => {
                     sx={{ cursor: 'pointer'}}
 
                     >
-                        Meliora
+                    <Link href="/"> El Adabi</Link>
                     </Typography>
-                </Link>
                 <ListContainer>
                     <Link href="/">
                         <ListItem>Home</ListItem>
@@ -85,6 +110,7 @@ const Navbar = () => {
                 <Box sx={{ display: 'flex'}}> 
                     <SearchBox placeholder='Search'/>
                     <SearchIconContainer><SearchIcon style={{ color: colors.white}} /></SearchIconContainer>
+                    <MenuIconContainer><MenuIcon style={{ color: colors.white}}/></MenuIconContainer>
                 </Box>
 
             </CustomToolbar>

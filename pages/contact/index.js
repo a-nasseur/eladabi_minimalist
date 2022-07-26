@@ -1,8 +1,13 @@
 import React from 'react'
 
+
+import Section from '../../components/Section'
+
 const index = () => {
   return (
-    <div>contact</div>
+    <Section>
+      <h1>hello</h1>
+    </Section>
   )
 }
 
