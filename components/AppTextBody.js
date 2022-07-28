@@ -15,7 +15,8 @@ const AppTextBody = ({ children, style}) => {
         lineHeight='32px'
 
     >
-        {children}
+    <div dangerouslySetInnerHTML={{__html: `${children}`}} />
+
     </Typography>
   )
 }

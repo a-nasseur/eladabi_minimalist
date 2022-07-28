@@ -6,11 +6,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import colors from '../config/colors';
+import AppInputField from './AppInputField';
 
 
 const CustomToolbar = styled(Toolbar)(({ theme }) => ({
     alignItems: 'center'
 }));
+
 
 const ListContainer = styled('ul')(({ theme }) => ({
     display: 'flex',
@@ -38,21 +40,6 @@ const ListItem = styled('li')(({ theme }) => ({
 }));
 
 
-const SearchBox = styled('input')(({ theme }) => ({
-    position: 'relative',
-    width: '216px',
-    height: '40px',
-    backgroundColor: colors.neutral.grey,
-    border: 'none',
-    padding: '0px 20px',
-    fontFamily: 'Roboto Mono, monospace',
-    '&:active': {
-        border: 'none'
-    },
-    [theme.breakpoints.down('md')]:{
-        display: 'none'
-    }
-}));
 
 const SearchIconContainer = styled(Box)(({ theme }) => ({
     width: '40px',
@@ -66,6 +53,7 @@ const SearchIconContainer = styled(Box)(({ theme }) => ({
         display: 'none'
     }
 }));
+
 
 const MenuIconContainer = styled(Box)(({ theme }) => ({
     width: '40px',
@@ -108,7 +96,7 @@ const Navbar = () => {
                     <ListItem sx={{ display: 'flex', alignItems: 'center'}}>More <KeyboardArrowDownIcon/></ListItem>
                 </ListContainer>
                 <Box sx={{ display: 'flex'}}> 
-                    <SearchBox placeholder='Search'/>
+                    <AppInputField placeholder='Search' />
                     <SearchIconContainer><SearchIcon style={{ color: colors.white}} /></SearchIconContainer>
                     <MenuIconContainer><MenuIcon style={{ color: colors.white}}/></MenuIconContainer>
                 </Box>
