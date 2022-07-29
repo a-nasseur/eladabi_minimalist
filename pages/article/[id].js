@@ -59,7 +59,7 @@ export const getStaticProps = async (context) => {
   const response = await fetch(`https://eladabi.herokuapp.com/api/v1/articles/${id}`);
   const post = await response.json();
 
-  const responseComments = await fetch(`https://eladabi.herokuapp.com/comments?article=${id}`)
+  const responseComments = await fetch(`https://eladabi.herokuapp.com/api/v1/comments?article=${id}`)
   const comments = await responseComments.json();
 
 

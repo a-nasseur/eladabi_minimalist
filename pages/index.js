@@ -4,10 +4,9 @@ import Section from '../components/Section';
 
 
 
-
 export const getStaticProps =  async (context) =>  {
 
-  const res = await fetch('https://eladabi.herokuapp.com/api/v1/articles/');
+  const res = await fetch('https://eladabi.herokuapp.com/api/v1/articles');
   const posts = await res.json();
 
   return {
