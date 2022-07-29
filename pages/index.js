@@ -1,7 +1,7 @@
 import ArticlesList from '../components/ArticlesList'
-import Meta from '../utils/Meta'
+import Meta from '../utils/Meta';
+import Section from '../components/Section';
 
-import Section from '../components/Section'
 
 
 
@@ -20,14 +20,13 @@ export const getStaticProps =  async (context) =>  {
 
 
 export default function Home({ posts }) {
-
-
   return (
     <>
       <Meta />
         <Section>
           <ArticlesList posts={posts} /> 
-        </Section>    
+        </Section>  
+
     </>
   )
 }

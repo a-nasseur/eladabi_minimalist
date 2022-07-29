@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Image from 'next/image';
-import { Box, Button } from '@mui/material';
+import { Box, Grid, TextField } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Oval } from 'react-loader-spinner';
+import * as Yup from 'yup';
 
 
 
@@ -17,8 +18,20 @@ import AppTextBody from '../../components/AppTextBody'
 import Meta from '../../utils/Meta';
 import AppTag from '../../components/AppTag';
 import colors from '../../config/colors'
-import AppInputField from '../../components/AppInputField';
+import AppSubHeading from '../../components/AppSubHeading';
+import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
+import AppFormTextField from '../../components/forms/AppFormTextField';
 
+
+
+
+// Yup Validation Schema
+const validationSchema = Yup.object().shape({
+  username: Yup.string().required().label('Username'),
+  email: Yup.string().required().email().label('Email'),
+  password: Yup.string().required().min(4).max(10).label('Password')
+
+})
 
 
 
@@ -46,10 +59,14 @@ export const getStaticProps = async (context) => {
   const response = await fetch(`https://eladabi.herokuapp.com/api/v1/articles/${id}`);
   const post = await response.json();
 
+  const responseComments = await fetch(`https://eladabi.herokuapp.com/comments?article=${id}`)
+  const comments = await responseComments.json();
+
 
   return {
     props: {
       post,
+      comments,
     }
   }
 
@@ -58,10 +75,9 @@ export const getStaticProps = async (context) => {
 
 
 
-const ArticleDetail = ({ post }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+
+
+const ArticleDetail = ({ post, comments }) => {
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false)
 
@@ -77,9 +93,6 @@ const ArticleDetail = ({ post }) => {
 });
     const data = await response.json();
     setToken(data.access)
-    setUsername('');
-    setEmail('');
-    setPassword('');
     setLoading(false)
   }
 
@@ -110,45 +123,29 @@ const ArticleDetail = ({ post }) => {
           <GitHubIcon fontSize='large' sx={{ marginRight: '24px', '&:hover': {color: colors.secondary}}} />    
         </Box>  
 
-        {
-          token && 
-          <AppHeading>Comments ready to be seen</AppHeading>
+        <AppForm
+          initialValues={{username: '', email: '', password: '', message: ''}}
+          onSubmit={() => console.log('khraa')}
+          validationSchema={validationSchema}
 
-        }
-
-        {
-          !token &&
-          <form style={{ display: 'flex', justifyContent: 'space-between'}}>
-            <AppInputField type='text' required placeholder='username' onChange={(e) => setUsername(e.target.value)} />
-
-            <AppInputField type='email' required placeholder='email' onChange={(e) => setEmail(e.target.value)} />
-
-            <AppInputField type='password' required placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-
-            {
-              !loading &&
-              <Button 
-                variant='contained'
-                sx={{ backgroundColor: colors.black, '&:hover': {backgroundColor: colors.secondary}}}
-                type='submit' 
-                onClick={handleSubmit}
-                >
-                  Click me
-              </Button>
-            }
-            {
-              loading && 
-              <Oval
-                height = "80"
-                width = "80"
-                color = {colors.secondary}
-                ariaLabel = 'three-dots-loading'     
-              />
-            }
-          </form>
-        }
-
-
+        >
+          <AppSubHeading style={{ marginTop: '46px', marginBottom: '56px  '}}>Ajouter un commentaire</AppSubHeading>
+          <Grid container>
+            <Grid item xs={12} md={12} lg={4}>
+              <AppFormField name='username' type='text' placeholder='Username' />             
+            </Grid>
+            <Grid item xs={12} md={12} lg={4}>
+              <AppFormField name='email' type='email' placeholder='Email' />             
+            </Grid>
+            <Grid item xs={12} md={12} lg={4}>
+              <AppFormField name='password' type='password' placeholder='Password' />             
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <AppFormTextField placeholder='Commentez ici' />
+            </Grid>
+          </Grid>
+          <SubmitButton title='Post' />
+        </AppForm>
       </Section>
     </>
   )

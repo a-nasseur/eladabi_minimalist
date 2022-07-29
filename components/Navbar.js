@@ -95,7 +95,7 @@ const Navbar = () => {
                     </Link>
                     <ListItem sx={{ display: 'flex', alignItems: 'center'}}>More <KeyboardArrowDownIcon/></ListItem>
                 </ListContainer>
-                <Box sx={{ display: 'flex'}}> 
+                <Box sx={{ display: 'flex',}}> 
                     <AppInputField placeholder='Search' />
                     <SearchIconContainer><SearchIcon style={{ color: colors.white}} /></SearchIconContainer>
                     <MenuIconContainer><MenuIcon style={{ color: colors.white}}/></MenuIconContainer>
