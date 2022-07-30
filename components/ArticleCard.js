@@ -35,7 +35,7 @@ const TagsContent = styled(Box)(({ theme }) => ({
 
 
 
-const ArticleCard = ({ date, title, tag, id }) => {
+const ArticleCard = ({ date, title, tags, id }) => {
 
   const newDate = new Date(date).toLocaleString('fr-FR')
 
@@ -63,10 +63,14 @@ const ArticleCard = ({ date, title, tag, id }) => {
                         </Grid>
                         <Grid item xs={6} md={6} lg={3} >
                         {
-                            tag &&
+                            tags?.length &&
                             <TagsContent>
-                                <AppTag title={tag} />
-                                <AppTag title={tag} />
+                            { tags.map((tag, index) => 
+                                <React.Fragment key={index}>
+                                    <AppTag title={tag} />
+                                </React.Fragment>
+                                )   
+                            }
                             </TagsContent>
                         }
                         </Grid>

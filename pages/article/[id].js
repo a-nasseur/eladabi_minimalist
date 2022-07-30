@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import { Box, Checkbox, FormControlLabel, FormGroup, Grid, TextField } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Oval } from 'react-loader-spinner';
 import * as Yup from 'yup';
 
 
@@ -72,6 +71,12 @@ export const getStaticProps = async (context) => {
 
 }
 
+const setToStorage = (key,value) => {
+  if(typeof window !== 'undefined'){
+      return window.localstorage.setItem(key,value)
+    }
+}
+
 
 
 const ArticleDetail = ({ post, comments }) => {
@@ -81,23 +86,27 @@ const ArticleDetail = ({ post, comments }) => {
 
   const handleSubmit = async ({username, email, password, message}) => {
     setLoading(true)
-    const body = {username, password}
+    const body = {username, password , email}
     console.log(body)
-    const response = await fetch('https://eladabi.herokuapp.com/api/v1/token/', {
+    const response = await fetch('https://eladabi.herokuapp.com/api/v1/users/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(body)
 });
+
     if(response.ok){
       const data = await response.json();
-      setToken(data.access)
-      setLoading(false)
-      console.log(token)
+      setToStorage('token', data.access);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      console.log('khraaaaaaaa')
     }
-    
-    
 
   }
+
+
+  
 
   const newDate = new Date(post.created_date).toLocaleString('fr-FR')
 
@@ -151,7 +160,7 @@ const ArticleDetail = ({ post, comments }) => {
               <FormGroup>
                 <FormControlLabel 
                   control={<Checkbox defaultChecked sx={{'&.Mui-checked': {color: colors.secondary}}} />} 
-                  label="Save my name, email, and website in this browser for the next time I comment"
+                  label="Enregistrer mon nom et email dans ce navigateur pour les prochains commentaires"
 
                 />
               </FormGroup>
@@ -160,7 +169,7 @@ const ArticleDetail = ({ post, comments }) => {
               <AppFormTextField placeholder='Commentez ici' name='message' />
             </Grid>
           </Grid>
-          <SubmitButton title='Post' />
+          <SubmitButton title='Poster' loading={loading} />
         </AppForm>
       </Section>
     </>
