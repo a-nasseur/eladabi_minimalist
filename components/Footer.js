@@ -19,7 +19,7 @@ const FooterContainer = styled(Container)(({ theme }) => ({
 
 
 
-const SocialIcons = styled(Box)(({ theme }) => ({
+const SocialIconsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
 }));
 
@@ -37,12 +37,12 @@ const Footer = () => {
         >
           Tous les droits revservee el adabi inc
         </Typography>
-        <SocialIcons>
+        <SocialIconsContainer>
           <FacebookIcon   sx={{ marginRight: '24px',  '&:hover': {color: colors.secondary}}}  /> 
           <InstagramIcon  sx={{ marginRight: '24px', '&:hover': {color: colors.secondary}}}  />
           <TwitterIcon   sx={{ marginRight: '24px', '&:hover': {color: colors.secondary}}}  /> 
           <GitHubIcon   sx={{ marginRight: '24px','&:hover': {color: colors.secondary}}}  />      
-        </SocialIcons>
+        </SocialIconsContainer>
       </FooterContainer>
     </Box>
   )

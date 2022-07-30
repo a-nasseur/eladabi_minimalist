@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image';
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid, TextField } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -29,9 +29,9 @@ import AppFormTextField from '../../components/forms/AppFormTextField';
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().label('Username'),
   email: Yup.string().required().email().label('Email'),
-  password: Yup.string().required().min(4).max(10).label('Password')
-
-})
+  password: Yup.string().required().min(4).max(20).label('Password'),
+  message: Yup.string().required().min(10).max(260).label('Comment'),
+});
 
 
 
@@ -74,26 +74,29 @@ export const getStaticProps = async (context) => {
 
 
 
-
-
-
 const ArticleDetail = ({ post, comments }) => {
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false)
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async ({username, email, password, message}) => {
     setLoading(true)
-    const body = {username: username, password: password}
+    const body = {username, password}
+    console.log(body)
     const response = await fetch('https://eladabi.herokuapp.com/api/v1/token/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(body)
 });
-    const data = await response.json();
-    setToken(data.access)
-    setLoading(false)
+    if(response.ok){
+      const data = await response.json();
+      setToken(data.access)
+      setLoading(false)
+      console.log(token)
+    }
+    
+    
+
   }
 
   const newDate = new Date(post.created_date).toLocaleString('fr-FR')
@@ -108,12 +111,14 @@ const ArticleDetail = ({ post, comments }) => {
         <img src={`https://res.cloudinary.com/dso6wubcp/` + post.image} style={{ width: '100%' , height: '80vh', padding: '48px 0px'}}/>
 
          <AppTextBody>{post.body}</AppTextBody>
-
-        <Box sx={{ display : 'flex', padding: '50px 0px'}}>
-          <AppTag title="Amour" />
-          <AppTag title="Couple" />
-          <AppTag title="Intime" />
-        </Box>
+         <Box  sx={{ display : 'flex', padding: '56px 0px'}}>
+            { post.tags.map((tag, index) => 
+              <React.Fragment key={index}>
+                <AppTag title={tag} />
+              </React.Fragment>
+              )   
+            }
+          </Box>
 
         <Box sx={{ display : 'flex', padding: '40px 0px', alignItems: 'center', borderBottom: `1px solid ${colors.neutral.darkGrey}`}}>
           <AppTextCaption>Share</AppTextCaption>
@@ -124,24 +129,35 @@ const ArticleDetail = ({ post, comments }) => {
         </Box>  
 
         <AppForm
-          initialValues={{username: '', email: '', password: '', message: ''}}
-          onSubmit={() => console.log('khraa')}
+          initialValues={{username: '', email: '', password: '', message: '', save: false}}
+          onSubmit={handleSubmit}
           validationSchema={validationSchema}
 
         >
-          <AppSubHeading style={{ marginTop: '46px', marginBottom: '56px  '}}>Ajouter un commentaire</AppSubHeading>
+          <AppSubHeading style={{ marginTop: '46px', marginBottom: '56px'}}>Ajouter un commentaire</AppSubHeading>
           <Grid container>
-            <Grid item xs={12} md={12} lg={4}>
-              <AppFormField name='username' type='text' placeholder='Username' />             
+            <Grid container justifyContent='space-between'>
+              <Grid item xs={12} md={12} lg={3}>
+                <AppFormField name='username' type='text' placeholder='Username' />             
+              </Grid>
+              <Grid item xs={12} md={12} lg={3}>
+                <AppFormField name='email' type='email' placeholder='Email' />             
+              </Grid>
+              <Grid item xs={12} md={12} lg={3}>
+                <AppFormField name='password' type='password' placeholder='Password' />             
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={12} lg={4}>
-              <AppFormField name='email' type='email' placeholder='Email' />             
-            </Grid>
-            <Grid item xs={12} md={12} lg={4}>
-              <AppFormField name='password' type='password' placeholder='Password' />             
+            <Grid item>
+              <FormGroup>
+                <FormControlLabel 
+                  control={<Checkbox defaultChecked sx={{'&.Mui-checked': {color: colors.secondary}}} />} 
+                  label="Save my name, email, and website in this browser for the next time I comment"
+
+                />
+              </FormGroup>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
-              <AppFormTextField placeholder='Commentez ici' />
+              <AppFormTextField placeholder='Commentez ici' name='message' />
             </Grid>
           </Grid>
           <SubmitButton title='Post' />

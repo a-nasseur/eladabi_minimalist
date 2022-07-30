@@ -15,6 +15,7 @@ const AppFormField = ({ name, ...otherProps}) => {
         onChange={handleChange(name)}
         onBlur={() => setFieldTouched(name)} 
         {...otherProps }
+        style={{ width: '100%'}}
 
         /> 
       <ErrorMessage error={errors[name]} visible={touched[name]} />   
