@@ -87,6 +87,7 @@ const ArticleDetail = ({ post, comments }) => {
   const handleSubmit = async ({username, email, password, message}) => {
     setLoading(true)
     const body = {username, password , email}
+    const commentBody = {owner: username, message}
     console.log(body)
     const response = await fetch('https://eladabi.herokuapp.com/api/v1/users/', {
       method: 'POST',
@@ -95,6 +96,11 @@ const ArticleDetail = ({ post, comments }) => {
 });
 
     if(response.ok){
+      const response = await fetch('https://eladabi.herokuapp.com/api/v1/token/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+  });
       const data = await response.json();
       setToStorage('token', data.access);
       setLoading(false);
