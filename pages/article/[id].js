@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, forwardRef } from 'react'
 import Image from 'next/image';
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid, TextField } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid, Snackbar, TextField, Alert, AlertProps } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -32,6 +32,12 @@ const validationSchema = Yup.object().shape({
   message: Yup.string().required().min(10).max(260).label('Comment'),
 });
 
+
+const SnackbarAlert = forwardRef(
+  function SnackbarAlert(props, ref){
+    return <Alert elevation={6} ref={ref} {...props}/>
+  }
+)
 
 
 export const getStaticPaths = async () => {
@@ -71,47 +77,38 @@ export const getStaticProps = async (context) => {
 
 }
 
-const setToStorage = (key,value) => {
-  if(typeof window !== 'undefined'){
-      return window.localstorage.setItem(key,value)
-    }
-}
-
 
 
 const ArticleDetail = ({ post, comments }) => {
   const [token, setToken] = useState('');
-  const [loading, setLoading] = useState(false)
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError ] = useState('');
+  const [success, setSuccess] = useState('');
+  const [open, setOpen ] = useState(false);
 
   const handleSubmit = async ({username, email, password, message}) => {
-    setLoading(true)
-    const body = {username, password , email}
-    const commentBody = {owner: username, message}
-    console.log(body)
-    const response = await fetch('https://eladabi.herokuapp.com/api/v1/users/', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(body)
-});
-
-    if(response.ok){
-      const response = await fetch('https://eladabi.herokuapp.com/api/v1/token/', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(body)
-  });
+    setLoading(true);
+    try {
+      const response = await fetch('https://eladabi.herokuapp.com/api/v1/articles/');
       const data = await response.json();
-      setToStorage('token', data.access);
-      setLoading(false);
-    } else {
-      setLoading(false);
-      console.log('khraaaaaaaa')
+      if(response.ok){
+        console.log(data)
+        setSuccess('data gathered successfully');
+        setOpen(true)
+        setLoading(false) 
+      }
     }
-
+    catch(error) {
+      setError(error.message);
+      setOpen(true)
+      setLoading(false)
+    }
+    setLoading(false)
   }
 
-
+  const handleClose = () => {
+      setOpen(false)
+  }
   
 
   const newDate = new Date(post.created_date).toLocaleString('fr-FR')
@@ -177,6 +174,35 @@ const ArticleDetail = ({ post, comments }) => {
           </Grid>
           <SubmitButton title='Poster' loading={loading} />
         </AppForm>
+        {/* <Snackbar 
+          message={error} 
+          autoHideDuration={4000} 
+          open={open} onClose={handleClose} 
+          anchorOrigin={{vertical: 'bottom', horizontal: 'right' }} 
+        /> */}
+        { success &&
+          <Snackbar
+          autoHideDuration={4000} 
+          open={open} onClose={handleClose} 
+          anchorOrigin={{vertical: 'bottom', horizontal: 'right' }} 
+        >
+          <SnackbarAlert onClose={handleClose} severity='success'>{success}</SnackbarAlert>
+
+        </Snackbar>
+        
+        }
+
+        { error &&
+          <Snackbar
+            autoHideDuration={4000} 
+            open={open} onClose={handleClose} 
+            anchorOrigin={{vertical: 'bottom', horizontal: 'right' }} 
+          >
+            <SnackbarAlert onClose={handleClose} severity='error'>{error}</SnackbarAlert>
+
+          </Snackbar>
+          
+          }
       </Section>
     </>
   )

@@ -4,7 +4,7 @@ import Section from '../components/Section';
 
 
 
-export const getStaticProps =  async (context) =>  {
+export const getServerSideProps = async (context) =>  {
 
   const res = await fetch('https://eladabi.herokuapp.com/api/v1/articles');
   const posts = await res.json();
@@ -25,7 +25,6 @@ export default function Home({ posts }) {
         <Section>
           <ArticlesList posts={posts} /> 
         </Section>  
-
     </>
   )
 }
