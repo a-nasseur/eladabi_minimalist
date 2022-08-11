@@ -6,6 +6,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import * as Yup from 'yup';
+import { Oval } from 'react-loader-spinner';
 
 
 
@@ -138,8 +139,24 @@ const ArticleDetail = ({ post, comments }) => {
 
   return (
     <>
+
       <Meta title={'Article' + ' | ' + post.title} description={post.excerpt} />
       <Section>
+
+      { !post && 
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <Oval 
+            height = "80"
+            width = "80"
+            radius = "9"
+            color = 'green'
+            ariaLabel = 'three-dots-loading'     
+            wrapperStyle
+            wrapperClass
+          />
+        </Box>
+      }
+
         <AppTextCaption>{post.category}</AppTextCaption>
         <AppHeading style={{padding: '24px 0px'}}>{post.title}</AppHeading>
         <AppTextCaption>{newDate} | {post.author}</AppTextCaption>
