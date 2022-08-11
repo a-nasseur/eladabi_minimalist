@@ -9,6 +9,7 @@ export const getServerSideProps = async (context) =>  {
   const res = await fetch('https://eladabi.herokuapp.com/api/v1/articles');
   const posts = await res.json();
 
+
   return {
     props: { 
       posts,

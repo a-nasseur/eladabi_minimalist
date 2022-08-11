@@ -1,6 +1,6 @@
-import React, { useEffect, useState, forwardRef } from 'react'
+import React, { useEffect, useState, forwardRef } from 'react';
 import Image from 'next/image';
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid, Snackbar, TextField, Alert, AlertProps } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup, Grid, Snackbar,  Alert, AlertProps } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -18,7 +18,7 @@ import Meta from '../../utils/Meta';
 import AppTag from '../../components/AppTag';
 import colors from '../../config/colors'
 import AppSubHeading from '../../components/AppSubHeading';
-import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
+import { AppForm, AppFormField, SubmitButton } from '../../components/forms';
 import AppFormTextField from '../../components/forms/AppFormTextField';
 
 
@@ -40,26 +40,45 @@ const SnackbarAlert = forwardRef(
 )
 
 
-export const getStaticPaths = async () => {
+// export const getStaticPaths = async () => {
 
-  const res = await fetch('https://eladabi.herokuapp.com/api/v1/articles/');
-  const data = await res.json();
+//   const res = await fetch('https://eladabi.herokuapp.com/api/v1/articles');
+//   const data = await res.json();
 
-  const paths = data.map(post => {
-    return {
-      params: { id: post.id.toString()}
-    }
-  })
+//   const paths = data.map(post => {
+//     return {
+//       params: { id: post.id.toString()}
+//     }
+//   })
  
-  return {
-    paths,
-    fallback: false
-  }
-}
+//   return {
+//     paths,
+//     fallback: false
+//   }
+// }
 
 
 
-export const getStaticProps = async (context) => {
+// export const getStaticProps = async (context) => {
+//   const id = context.params.id;
+//   const response = await fetch(`https://eladabi.herokuapp.com/api/v1/articles/${id}`);
+//   const post = await response.json();
+
+//   const responseComments = await fetch(`https://eladabi.herokuapp.com/api/v1/comments?article=${id}`)
+//   const comments = await responseComments.json();
+
+
+//   return {
+//     props: {
+//       post,
+//       comments,
+//     }
+//   }
+
+// }
+
+
+export const getServerSideProps = async (context) => {
   const id = context.params.id;
   const response = await fetch(`https://eladabi.herokuapp.com/api/v1/articles/${id}`);
   const post = await response.json();
@@ -68,15 +87,14 @@ export const getStaticProps = async (context) => {
   const comments = await responseComments.json();
 
 
+
   return {
     props: {
       post,
       comments,
     }
   }
-
 }
-
 
 
 const ArticleDetail = ({ post, comments }) => {
@@ -87,27 +105,32 @@ const ArticleDetail = ({ post, comments }) => {
   const [open, setOpen ] = useState(false);
 
   const handleSubmit = async ({username, email, password, message}) => {
+    const body = {username, email, password}
     setLoading(true);
     try {
-      const response = await fetch('https://eladabi.herokuapp.com/api/v1/articles/');
+      const response = await fetch('http://localhost:8000/api/v1/register', {
+        method: 'POST',
+        body: JSON.stringify(body),
+      });
       const data = await response.json();
-      if(response.ok){
-        console.log(data)
-        setSuccess('data gathered successfully');
-        setOpen(true)
-        setLoading(false) 
-      }
+
+
+        if(response.ok){
+          setSuccess('data gathered successfully');
+          setOpen(true);
+          setLoading(false); 
+        }
     }
     catch(error) {
       setError(error.message);
-      setOpen(true)
-      setLoading(false)
+      setOpen(true);
+      setLoading(false);
     }
-    setLoading(false)
+    setLoading(false);
   }
 
   const handleClose = () => {
-      setOpen(false)
+      setOpen(false);
   }
   
 
