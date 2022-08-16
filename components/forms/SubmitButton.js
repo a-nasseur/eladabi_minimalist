@@ -17,4 +17,4 @@ const SubmitButton = ({ title, loading }) => {
   )
 }
 
-export default SubmitButton
+export default SubmitButton;

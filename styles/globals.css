@@ -23,3 +23,18 @@ a {
     background: black;
   }
 }
+
+/* .slick-prev:before, .slick-next:before{
+  color: black !important;
+} */
+
+.slick-next, .slick-prev  {
+  color: black !important;
+}
+
+.slider {
+  margin-top: 63px;
+  height: 41px;
+  align-items: center;
+  border-bottom: 1px solid #DFDFDF;
+}

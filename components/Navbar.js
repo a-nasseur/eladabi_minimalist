@@ -28,7 +28,7 @@ const ListItem = styled('li')(({ theme }) => ({
     marginRight: '48px',
     color: colors.neutral.darkGrey,
     cursor: 'pointer',
-    paddingBottom: '8px',
+    // paddingBottom: '8px',
     '&:active': {
         borderBottom: '2px solid black',
         borderColor: colors.neutral.darkGrey,
@@ -89,7 +89,9 @@ const Navbar = () => {
                     <Link href="/">
                         <ListItem>Home</ListItem>
                     </Link>
-                    <ListItem>Blog</ListItem>
+                    <Link href='/blog'>
+                        <ListItem>Blog</ListItem>
+                    </Link>
                     <Link href="/contact">
                         <ListItem>Contact us</ListItem>
                     </Link>
