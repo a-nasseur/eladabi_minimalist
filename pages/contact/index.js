@@ -24,7 +24,7 @@ const validationSchema = Yup.object().shape({
 });
 
 
-const index = () => {
+const Contact = () => {
   const [loading, setLoading] = useState(false)
 
   
@@ -99,4 +99,4 @@ const index = () => {
   )
 }
 
-export default index
+export default Contact;
