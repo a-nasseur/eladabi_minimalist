@@ -1,7 +1,6 @@
 import { Checkbox, FormControlLabel, FormGroup, Grid } from '@mui/material'
-import React from 'react'
+import { useState } from 'react'
 import * as Yup from 'yup';
-import { Oval } from 'react-loader-spinner';
 
 
 
@@ -13,7 +12,6 @@ import AppFormTextField from '../../components/forms/AppFormTextField';
 import Section from '../../components/Section'
 import colors from '../../config/colors';
 import Meta from '../../utils/Meta';
-import Link from 'next/link';
 
 
 
@@ -27,7 +25,7 @@ const validationSchema = Yup.object().shape({
 
 
 const index = () => {
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = useState(false)
 
   
   const handleSubmit = async ({username, email, phoneNumber, message}) => {
